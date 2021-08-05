@@ -1,0 +1,77 @@
+Serverless Demos
+
+1. HTTP Trigger Azure Function -- show creating a function and running it from the Azure portal
+Steps:
+
+1. Go to Azure Portal: New Function > HTTP Trigger
+2. Open the Code+Text tab: Paste this code: 
+
+#r "Newtonsoft.Json"
+
+using System.Net;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Primitives;
+using Newtonsoft.Json;
+using System.Web;
+
+public static async Task<IActionResult> Run(HttpRequest req, ILogger log)
+{
+    log.LogInformation("C# HTTP trigger function processed a request.");
+
+    string clientIP = (req.Headers["X-Forwarded-For"].FirstOrDefault() ?? "").Split(new char[] { ':' }).FirstOrDefault();
+    return new OkObjectResult($"The client ip address is {clientIP}");
+}
+
+3. Test the code, show how the streaming logs appear
+4. Show there is intennisense
+5. Walk through the runction runtime settings (consumption plan scale limit, Configuration, General Settings, Identity, Metrics, Logs, Networking, etc)
+
+
+
+Demo 2 - More complicated Function
+
+***Presenter Note: Your choice to create this live, or walk through it pre-created. the precreated function is called demo1HttpSentiment and you can just use that***
+4. Open the  Http Trigger Function - called Http Sentiment. 
+5. Open the Code+Test tab -- explain this is an Http Triggered Function that is calling a cognitive service to detect sentiment. Then, sends a response based on the sensitment.:
+6. Explain - Talk through the code
+7. Go to Configuration: Show the Application Setting: TextAnalyticsKey - explain you can store app settings here
+8. Call the function: 
+
+
+Demo 3 - Image Resize with Event Grid and Azure Functions: 
+Tutorial is here: https://docs.microsoft.com/en-us/azure/event-grid/resize-images-on-storage-blob-upload-event?tabs=dotnet%2Cazure-cli
+
+1. Open wkimagedemostorage Storage Account
+2. Click Events, then click on imageresize-sub subscription
+3. Click on Filters
+4. Show the Event Types - explain that events will be published when blobs are created in this storage Account
+5. Show the Subject Filters - explain that we only want events published for the images container
+6. At the bottom, show that we've confifugred the Thumbnail Azure Function to receive the event.
+7. Open the Function in a new Tab, and click on Monitor, then Logs to view the streaming logs
+8. Tab back over to the storage account, click Storage Explorer. Upload an image into the images container
+9. Tab back over to the Azure Function, show in the logs that it processed the image
+10. Tab back to the storage account, show the new image in the Thumbnails container
+
+
+
+Demo 4 - 
+3. OpenAPI Azure Function
+https://docs.microsoft.com/en-us/azure/azure-functions/openapi-apim-integrate-visual-studio
+
+Next, lets show how to create a function from Visual studio
+1. File New > Function > Http Trigger + openapi
+2. Paste this code there. 
+3. Run it locally -- hit F5 and go to the OpenAPI Uri
+4. Show that you can right-click publish -- show there is an API Management tab as well. This takes to long, so do the next steps with the pre-created resource
+Dan to finish
+
+
+Demo 5 . Durable Function?
+TBC
+
+
+Demo 6 - 
+Logic App - show the Logic App -textmessage function -- this recieves an HTTP request, and sends an SMS using ACS
+
+
+
